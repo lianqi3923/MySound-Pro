@@ -1,4 +1,4 @@
-package com.github.eprendre.sources_by_mysound_pro
+package com.github.eprendre.my_sound_pro
 
 import com.github.eprendre.tingshu.sources.TingShu
 import io.github.mysoundpro.generated.GeneratedSourceRegistry

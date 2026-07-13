@@ -1,6 +1,6 @@
 # MySound-Pro 架构设计说明书
 
-> 文档状态：Stage 0 设计已确认；Stage 1 自动化实现已提交，真机门禁待验证
+> 文档状态：Stage 0 设计已确认；Stage 1 已通过自动化与 MyTingShu 2.6.0 宿主门禁
 > 设计日期：2026-07-13
 > 本阶段只做架构设计，不包含实现代码、可执行 JAR 或站点解析规则。
 
@@ -22,7 +22,7 @@ MySound-Pro 采用六层结构：领域 API、共享核心、站点 Parser、MyT
 公开的 MyTingShu 示例仓库显示：
 
 - 自定义源需要继承 `TingShu`，入口为 `SourceEntry.getSources(): List<TingShu>`，不是直接加载任意自定义接口。
-- 入口包名必须唯一，宿主依靠包名和 `SourceEntry` 找到插件。
+- 入口包名必须由 JAR 基名派生：`my_sound_pro.jar` 对应 `com.github.eprendre.my_sound_pro.SourceEntry`。
 - 发布物是经过 D8 转换、供 Android 加载的 JAR，而不只是普通 JVM JAR。
 - 宿主支持订阅 JSON，并按数字 `version`、`entry_package` 和 `download_url` 检查更新。
 - 公开接口注释至少包含 2.5.9 加入的自定义配置能力。
@@ -40,7 +40,7 @@ MySound-Pro 采用六层结构：领域 API、共享核心、站点 Parser、MyT
 
 - 构建工具链：JDK 17。
 - 产物字节码：优先 `JVM 1.8`，再由当前兼容版本的 D8 转换。JDK 17 是构建环境，不等于强制输出 Java 17 字节码。
-- Kotlin、OkHttp、Okio、Jsoup、Coroutines 必须进入“宿主依赖矩阵”。宿主已有的库采用 `compileOnly`，防止重复类冲突；宿主没有的库才考虑最小化打包或 relocation，并进行真机验证。
+- Kotlin、OkHttp、Okio、Jsoup、Coroutines 必须进入“宿主依赖矩阵”。宿主已有且 ABI 稳定的库采用 `compileOnly`；协程因宿主父优先加载及 R8/加固导致 ABI 不可用，固定重定位到 `io.github.mysoundpro.shadow.coroutines`；其他宿主没有的库才考虑最小化打包或 relocation，并进行宿主验证。
 - 不把来源不明或许可证不清晰的宿主二进制提交进开源仓库。必要的宿主 API stub 只保留最小签名，并记录其来源与兼容版本。
 
 ## 3. 范围与非目标

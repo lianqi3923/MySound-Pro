@@ -1,7 +1,9 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import java.util.zip.ZipFile
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.shadow)
 }
 
 kotlin { jvmToolchain(17) }
@@ -11,6 +13,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 val d8 by configurations.creating
+val runtimeClasspathForPlugin = configurations.runtimeClasspath
 
 dependencies {
     implementation(project(":mysound-api"))
@@ -29,12 +32,13 @@ dependencies {
 
 tasks.test { useJUnitPlatform() }
 
-val pluginJvmJar by tasks.registering(Jar::class) {
+val pluginJvmJar = tasks.named<ShadowJar>("shadowJar") {
     group = "distribution"
     description = "Builds the JVM input JAR containing only MySound-Pro classes."
-    dependsOn(configurations.runtimeClasspath)
+    dependsOn(runtimeClasspathForPlugin)
     archiveFileName.set("my_sound_pro-jvm.jar")
     destinationDirectory.set(layout.buildDirectory.dir("release"))
+    configurations = emptyList()
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from(sourceSets.main.get().output)
@@ -47,10 +51,13 @@ val pluginJvmJar by tasks.registering(Jar::class) {
             "okhttp-brotli-",
             "dec-",
         )
-        configurations.runtimeClasspath.get()
+        runtimeClasspathForPlugin.get()
             .filter { dependency -> embeddedPrefixes.any(dependency.name::startsWith) }
             .map(::zipTree)
     })
+    // MyTingShu loads plugin classes parent-first and ships an incompatible,
+    // obfuscated coroutine runtime. Relocation gives the plugin an isolated ABI.
+    relocate("kotlinx.coroutines", "io.github.mysoundpro.shadow.coroutines")
     exclude("META-INF/*.SF", "META-INF/*.RSA", "META-INF/*.DSA")
 }
 
@@ -59,7 +66,7 @@ val verifyPluginJvmJar by tasks.registering {
     dependsOn(pluginJvmJar)
     doLast {
         ZipFile(pluginJvmJar.get().archiveFile.get().asFile).use { jar ->
-            check(jar.getEntry("com/github/eprendre/sources_by_mysound_pro/SourceEntry.class") != null) {
+            check(jar.getEntry("com/github/eprendre/my_sound_pro/SourceEntry.class") != null) {
                 "MyTingShu SourceEntry is missing from the plugin JAR"
             }
             check(jar.getEntry("io/github/mysoundpro/api/AudioSource.class") != null) {
@@ -79,6 +86,14 @@ val verifyPluginJvmJar by tasks.registering {
             }
             check(jar.getEntry("kotlin/Unit.class") == null) {
                 "Host-provided Kotlin standard library must not be duplicated"
+            }
+            check(jar.entries().asSequence().none {
+                it.name.startsWith("kotlinx/coroutines/") && it.name.endsWith(".class")
+            }) {
+                "Host-provided coroutines must not be duplicated"
+            }
+            check(jar.getEntry("io/github/mysoundpro/shadow/coroutines/BuildersKt.class") != null) {
+                "Relocated coroutine runtime is missing from the plugin JAR"
             }
         }
     }

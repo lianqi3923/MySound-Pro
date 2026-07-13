@@ -1,6 +1,7 @@
 [versions]
 kotlin = "1.9.24"
 ksp = "1.9.24-1.0.20"
+# Relocated into a plugin-private package because MyTingShu loads parent-first.
 coroutines = "1.8.1"
 serialization = "1.6.3"
 okhttp = "4.10.0"
@@ -9,6 +10,7 @@ junit = "5.10.3"
 assertj = "3.26.3"
 ksp-api = "1.9.24-1.0.20"
 r8 = "8.6.17"
+shadow = "8.3.11"
 
 [libraries]
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -28,3 +30,4 @@ r8 = { module = "com.android.tools:r8", version.ref = "r8" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

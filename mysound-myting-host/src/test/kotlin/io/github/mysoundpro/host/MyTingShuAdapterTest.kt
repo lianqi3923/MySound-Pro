@@ -1,6 +1,6 @@
 package io.github.mysoundpro.host
 
-import com.github.eprendre.sources_by_mysound_pro.SourceEntry
+import com.github.eprendre.my_sound_pro.SourceEntry
 import com.github.eprendre.tingshu.sources.AudioUrlCustomExtractor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

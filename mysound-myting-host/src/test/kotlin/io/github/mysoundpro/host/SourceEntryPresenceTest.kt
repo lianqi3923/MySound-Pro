@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test
 class SourceEntryPresenceTest {
     @Test
     fun `exports the static entry points required by MyTingShu`() {
-        val entry = Class.forName("com.github.eprendre.sources_by_mysound_pro.SourceEntry")
+        // MyTingShu 2.6.0 derives the entry package from the JAR basename:
+        // my_sound_pro.jar -> com.github.eprendre.my_sound_pro.SourceEntry.
+        val entry = Class.forName("com.github.eprendre.my_sound_pro.SourceEntry")
 
         assertThat(entry.getMethod("getDesc").returnType).isEqualTo(String::class.java)
         assertThat(entry.getMethod("getCategory").returnType).isEqualTo(String::class.java)
