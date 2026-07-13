@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verify tag matches project version
+        shell: bash
+        run: |
+          tag_version="${GITHUB_REF_NAME#v}"
+          project_version="$(sed -n 's/^projectVersion=//p' gradle.properties)"
+          test "$tag_version" = "$project_version"
+      - name: Build verified release bundle
+        run: >-
+          ./gradlew --no-daemon clean test :mysound-myting-host:verifyReleaseBundle
+          -PprojectUrl="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+      - name: Publish GitHub Release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            mysound-myting-host/build/release/my_sound_pro.jar
+            mysound-myting-host/build/release/my_sound_pro.json
+            mysound-myting-host/build/release/update.json
+            mysound-myting-host/build/release/my_sound_pro.sbom.json
+            mysound-myting-host/build/release/SHA256SUMS
+            mysound-myting-host/build/release/THIRD_PARTY_NOTICES.md
+            mysound-myting-host/build/release/README.md
+            mysound-myting-host/build/release/CHANGELOG.md
+            mysound-myting-host/build/release/LICENSE

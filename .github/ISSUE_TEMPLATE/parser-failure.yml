@@ -1,0 +1,35 @@
+name: Parser failure
+description: Report a public source parser failure without requesting bypass logic.
+title: "[Parser] "
+labels: ["parser-health"]
+body:
+  - type: dropdown
+    id: source
+    attributes:
+      label: Source
+      options:
+        - gutenberg-audio
+        - librivox
+        - quarantined source
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Public page URL
+    validations:
+      required: true
+  - type: textarea
+    id: failure
+    attributes:
+      label: Failure and parser location
+      description: Include HTTP status, elapsed time and SourceException location; never paste cookies or tokens.
+    validations:
+      required: true
+  - type: checkboxes
+    id: policy
+    attributes:
+      label: Access boundary
+      options:
+        - label: The page is accessible without login, membership, CAPTCHA, token or signature.
+          required: true

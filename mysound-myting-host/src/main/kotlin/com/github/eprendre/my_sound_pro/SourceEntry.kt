@@ -4,6 +4,7 @@ import com.github.eprendre.tingshu.sources.TingShu
 import io.github.mysoundpro.generated.GeneratedSourceRegistry
 import io.github.mysoundpro.host.MyTingShuAdapter
 import io.github.mysoundpro.host.MyTingShuRuntime
+import io.github.mysoundpro.host.SourceConfigRuntime
 
 /** MyTingShu 通过反射调用的唯一插件入口。 */
 object SourceEntry {
@@ -18,7 +19,7 @@ object SourceEntry {
      */
     @JvmStatic
     fun getSources(): List<TingShu> {
-        val sources = GeneratedSourceRegistry.all()
+        val sources = SourceConfigRuntime.enabled(GeneratedSourceRegistry.all())
         MyTingShuRuntime.install(sources)
         return sources.map(::MyTingShuAdapter)
     }

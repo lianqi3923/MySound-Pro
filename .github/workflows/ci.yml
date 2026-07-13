@@ -19,13 +19,15 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: gradle/actions/setup-gradle@v4
-      - name: Test and build DEX plugin
-        run: ./gradlew --no-daemon clean test :mysound-myting-host:verifyD8PluginJar
+      - name: Test and verify release bundle
+        run: >-
+          ./gradlew --no-daemon clean test :mysound-myting-host:verifyReleaseBundle
+          -PprojectUrl="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: mysound-pro-stage1
+          name: mysound-pro-${{ github.sha }}
           path: |
-            mysound-myting-host/build/release/my_sound_pro.jar
+            mysound-myting-host/build/release/
             **/build/reports/tests/
           if-no-files-found: warn

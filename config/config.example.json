@@ -2,7 +2,12 @@
   "schemaVersion": 1,
   "debug": false,
   "sources": {
-    "fixture-public": {
+    "gutenberg-audio": {
+      "enabled": true,
+      "userAgent": null,
+      "charset": null
+    },
+    "librivox": {
       "enabled": true,
       "userAgent": null,
       "charset": null

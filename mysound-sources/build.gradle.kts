@@ -28,3 +28,15 @@ tasks.test {
     systemProperty("mysound.live", providers.gradleProperty("mysound.live").getOrElse("false"))
     systemProperty("mysound.live.sampleSize", providers.gradleProperty("mysound.live.sampleSize").getOrElse("100"))
 }
+
+val verifyParserLineLimits by tasks.registering {
+    group = "verification"
+    description = "Rejects source Parser files longer than 300 lines."
+    doLast {
+        fileTree("src/main/kotlin/io/github/mysoundpro/sources") { include("*.kt") }.files.forEach { parser ->
+            check(parser.readLines().size <= 300) { "Parser exceeds 300 lines: ${parser.name}" }
+        }
+    }
+}
+
+tasks.check { dependsOn(verifyParserLineLimits) }

@@ -14,4 +14,13 @@ class SourceEntryPresenceTest {
         assertThat(entry.getMethod("getCategory").returnType).isEqualTo(String::class.java)
         assertThat(entry.getMethod("getSources").returnType).isEqualTo(List::class.java)
     }
+
+    @Test
+    fun `entry loads compiled defaults without jar resources`() {
+        val entry = Class.forName("com.github.eprendre.my_sound_pro.SourceEntry")
+
+        val sources = entry.getMethod("getSources").invoke(null) as List<*>
+
+        assertThat(sources).hasSize(2)
+    }
 }

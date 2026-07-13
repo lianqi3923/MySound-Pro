@@ -1,7 +1,7 @@
 package io.github.mysoundpro.core.http
 
 import io.github.mysoundpro.core.log.Logger
-import io.github.mysoundpro.core.log.NoOpLogger
+import io.github.mysoundpro.core.log.RuntimeLogger
 import okhttp3.OkHttpClient
 import okhttp3.brotli.BrotliInterceptor
 import java.util.concurrent.TimeUnit
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 object HttpClientFactory {
     @JvmStatic
     fun create(
-        logger: Logger = NoOpLogger,
+        logger: Logger = RuntimeLogger,
         retryPolicy: RetryPolicy = RetryPolicy(),
     ): HttpClient {
         val okHttpClient = OkHttpClient.Builder()
