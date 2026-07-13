@@ -1,0 +1,10 @@
+.gradle/
+.idea/
+*.iml
+build/
+**/build/
+work/
+outputs/
+.worktrees/
+local.properties
+*.log

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "debug": false,
+  "sources": {
+    "fixture-public": {
+      "enabled": true,
+      "userAgent": null,
+      "charset": null
+    }
+  }
+}

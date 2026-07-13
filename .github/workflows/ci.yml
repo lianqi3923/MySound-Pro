@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Test and build DEX plugin
+        run: ./gradlew --no-daemon clean test :mysound-myting-host:verifyD8PluginJar
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mysound-pro-stage1
+          path: |
+            mysound-myting-host/build/release/my_sound_pro.jar
+            **/build/reports/tests/
+          if-no-files-found: warn
