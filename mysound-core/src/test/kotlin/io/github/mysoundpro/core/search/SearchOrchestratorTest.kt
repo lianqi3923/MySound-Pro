@@ -42,6 +42,31 @@ class SearchOrchestratorTest {
         assertThat(calls).isZero()
     }
 
+    @Test
+    fun `merge removes normalized duplicate books and ranks exact title first`() = runTest {
+        val first = FakeSource("first") {
+            listOf(book("first", "三体"), book("first", "三体 全集"))
+        }
+        val second = FakeSource("second") {
+            listOf(book("second", " 三 体 "), book("second", "三体广播剧"))
+        }
+
+        val report = SearchOrchestrator().search("三体", listOf(first, second))
+
+        assertThat(report.books.map { it.title }).containsExactly("三体", "三体 全集", "三体广播剧")
+        assertThat(report.health).containsEntry("first", SourceHealth(successes = 1, failures = 0))
+        assertThat(report.health).containsEntry("second", SourceHealth(successes = 1, failures = 0))
+    }
+
+    @Test
+    fun `health report records isolated failures`() = runTest {
+        val failed = FakeSource("failed") { error("broken parser") }
+
+        val report = SearchOrchestrator().search("书", listOf(failed))
+
+        assertThat(report.health).containsEntry("failed", SourceHealth(successes = 0, failures = 1))
+    }
+
     private class FakeSource(
         override val sourceId: String,
         private val result: suspend () -> List<Book>,
