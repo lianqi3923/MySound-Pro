@@ -2,7 +2,7 @@
 kotlin = "1.9.24"
 ksp = "1.9.24-1.0.20"
 # Relocated into a plugin-private package because MyTingShu loads parent-first.
-coroutines = "1.8.1"
+coroutines = "1.11.0"
 serialization = "1.6.3"
 okhttp = "4.10.0"
 jsoup = "1.17.2"
