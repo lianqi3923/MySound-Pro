@@ -29,7 +29,7 @@ jobs:
           ./gradlew --no-daemon :mysound-sources:test
           --tests "io.github.mysoundpro.sources.LiveSourceReliabilityTest.random*"
           -Pmysound.live=true -Pmysound.live.sampleSize=100
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: live-parser-report-${{ github.run_id }}
