@@ -35,7 +35,7 @@ MySound-Pro 是《我的听书（MyTingShu）》的开源音源插件，只接�
 
 ## 构建与测试
 
-首次发布前请把 `gradle.properties` 中的 `projectUrl` 占位值改为仓库地址；GitHub Actions 会自动使用当前仓库地址覆盖它。
+`gradle.properties` 中的 `projectUrl` 指向项目公开仓库；GitHub Actions 也会使用当前仓库地址覆盖该值，保证 Fork 后发布链接正确。
 
 ```bash
 ./gradlew clean test :mysound-myting-host:verifyReleaseBundle

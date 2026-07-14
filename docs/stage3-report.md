@@ -32,6 +32,6 @@
 
 ## 发布边界
 
-本地生成的 `projectUrl` 仍是 `OWNER` 占位值，因为当前工作区没有用户的 GitHub 仓库身份。
-GitHub Actions 发布时会以 `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}` 覆盖该值，因此正式 Tag
-产物会自动写入真实仓库和下载地址。项目未代替维护者创建远程仓库、推送或发布 Release。
+`projectUrl` 指向 `https://github.com/lianqi3923/MySound-Pro`。GitHub Actions 发布时仍会以
+`${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}` 覆盖该值，因此 Fork 后的 Tag 产物也会自动写入
+对应仓库和下载地址。

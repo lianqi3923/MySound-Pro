@@ -172,6 +172,10 @@ val prepareRelease by tasks.registering {
     description = "Builds the complete auditable MySound-Pro release bundle."
     dependsOn(verifyD8PluginJar, ":mysound-sources:verifyParserLineLimits")
     val releaseDir = layout.buildDirectory.dir("release")
+    inputs.property("semanticVersion", project.provider { project.version.toString() })
+    inputs.property("pluginVersionCode", providers.gradleProperty("pluginVersionCode"))
+    inputs.property("projectUrl", providers.gradleProperty("projectUrl"))
+    inputs.files(rootProject.files("README.md", "CHANGELOG.md", "LICENSE"))
     outputs.dir(releaseDir)
     doLast {
         val output = releaseDir.get().asFile
