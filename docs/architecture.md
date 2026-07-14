@@ -523,7 +523,7 @@ Debug 构建记录：
 `update.json` 遵循 MyTingShu 公开订阅字段：
 
 - `version`：单调递增整数，用于 APP 判断更新。
-- `entry_package`：固定且唯一的入口包名。
+- `entry_package`：固定且唯一的 JAR/目录基名 `my_sound_pro`；宿主据此定位完整入口类。
 - `download_url`：对应版本的 `my_sound_pro.jar`。
 - `update_msg`：更新摘要。
 - `support_url`：项目主页或空字符串。

@@ -49,15 +49,24 @@ class LiveSourceReliabilityTest {
     }
 
     @Test
-    fun `search chapter and play smoke works for both live sources`() = runBlocking {
+    fun `search chapter and play smoke works for all live sources`() = runBlocking {
         requireLive()
         val gutenbergBook = GutenbergAudioSource().search("Alice").first()
         val gutenbergPlay = GutenbergAudioSource().chapters(gutenbergBook.detailUrl).first().let { GutenbergAudioSource().play(it.url) }
         val libriBook = LibriVoxSource().search("Alice").first()
         val libriPlay = LibriVoxSource().chapters(libriBook.detailUrl).first().let { LibriVoxSource().play(it.url) }
+        val tingShuWangBook = TingShuWangSource().search("流浪地球").first()
+        val tingShuWangPlay = TingShuWangSource().chapters(tingShuWangBook.detailUrl).first().let { TingShuWangSource().play(it.url) }
+        val bookanBook = BookanAudioSource().search("三国演义").first()
+        val bookanPlay = BookanAudioSource().chapters(bookanBook.detailUrl).first().let { BookanAudioSource().play(it.url) }
+        val yunTuBook = YunTuAudioSource().search("三国演义").first()
+        val yunTuPlay = YunTuAudioSource().chapters(yunTuBook.detailUrl).first().let { YunTuAudioSource().play(it.url) }
 
         assertThat(gutenbergPlay.url).matches("https?://.+\\.mp3(\\?.*)?")
         assertThat(libriPlay.url).contains(".mp3")
+        assertThat(tingShuWangPlay.url).contains(".mp3")
+        assertThat(bookanPlay.url).matches("https?://.+\\.(m4a|aac)(\\?.*)?")
+        assertThat(yunTuPlay.url).contains(".mp3")
         Unit
     }
 

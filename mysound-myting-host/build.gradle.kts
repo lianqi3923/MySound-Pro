@@ -199,16 +199,16 @@ val prepareRelease by tasks.registering {
   "sourceUrl": "$sourceUrl",
   "downloadUrl": "$downloadUrl",
   "sha256": "$hash",
-  "sources": ["gutenberg-audio", "librivox"]
+  "sources": ["bookan-audio", "gutenberg-audio", "librivox", "tingshuwang", "yuntu-audio"]
 }
 """,
         )
         output.resolve("update.json").writeText(
             """{
   "version": $versionCode,
-  "entry_package": "com.github.eprendre.my_sound_pro",
+  "entry_package": "my_sound_pro",
   "download_url": "$downloadUrl",
-  "update_msg": "MySound-Pro $semanticVersion：首批公开公版有声书来源、动态配置与可靠性测试。",
+  "update_msg": "MySound-Pro $semanticVersion：新增听书网、博看有声、云图有声三个中文公开来源。",
   "support_url": "$sourceUrl"
 }
 """,
@@ -263,7 +263,7 @@ val verifyReleaseBundle by tasks.registering {
             "release manifest SHA-256 does not match JAR"
         }
         val update = output.resolve("update.json").readText()
-        check(update.contains("\"entry_package\": \"com.github.eprendre.my_sound_pro\""))
+        check(update.contains("\"entry_package\": \"my_sound_pro\""))
         check(update.contains("\"version\": ${providers.gradleProperty("pluginVersionCode").get()}"))
         check(output.resolve("mysound-pro-default-config.json").exists().not())
     }

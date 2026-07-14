@@ -42,5 +42,5 @@ internal object SourceConfigRuntime {
         "/sdcard/Android/data/com.github.eprendre.tingshu/files/my_sound_pro/config.json"
 
     private const val DEFAULT_JSON =
-        """{"schemaVersion":1,"debug":false,"sources":{"gutenberg-audio":{"enabled":true},"librivox":{"enabled":true}}}"""
+        """{"schemaVersion":1,"debug":false,"sources":{"bookan-audio":{"enabled":true},"gutenberg-audio":{"enabled":true},"librivox":{"enabled":true},"tingshuwang":{"enabled":true},"yuntu-audio":{"enabled":true}}}"""
 }

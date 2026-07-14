@@ -11,6 +11,21 @@
       "enabled": true,
       "userAgent": null,
       "charset": null
+    },
+    "bookan-audio": {
+      "enabled": true,
+      "userAgent": null,
+      "charset": null
+    },
+    "tingshuwang": {
+      "enabled": true,
+      "userAgent": null,
+      "charset": null
+    },
+    "yuntu-audio": {
+      "enabled": true,
+      "userAgent": null,
+      "charset": null
     }
   }
 }

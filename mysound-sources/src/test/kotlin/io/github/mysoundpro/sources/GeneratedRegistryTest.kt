@@ -12,7 +12,19 @@ class GeneratedRegistryTest {
         @Suppress("UNCHECKED_CAST")
         val sources = registryType.getMethod("all").invoke(instance) as List<AudioSource>
 
-        assertThat(sources.map { it.sourceId }).containsExactly("gutenberg-audio", "librivox")
-        assertThat(sources.map { it.javaClass.simpleName }).containsExactly("GutenbergAudio", "LibriVox")
+        assertThat(sources.map { it.sourceId }).containsExactly(
+            "bookan-audio",
+            "gutenberg-audio",
+            "librivox",
+            "tingshuwang",
+            "yuntu-audio",
+        )
+        assertThat(sources.map { it.javaClass.simpleName }).containsExactly(
+            "BookanAudio",
+            "GutenbergAudio",
+            "LibriVox",
+            "TingShuWang",
+            "YunTuAudio",
+        )
     }
 }

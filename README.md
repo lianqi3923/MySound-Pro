@@ -2,7 +2,7 @@
 
 MySound-Pro 是《我的听书（MyTingShu）》的开源音源插件，只接入普通浏览器无需登录即可访问的公开音频。项目不实现会员解锁、验证码绕过、私有 Cookie、Token、签名算法或 DRM 规避。
 
-当前版本：**1.0.0**。已验证宿主：MyTingShu 2.6.0；构建使用 Kotlin、Gradle 与 JDK 17，插件最低 Android API 21。
+当前版本：**1.1.0**。已验证宿主：MyTingShu 2.6.0；构建使用 Kotlin、Gradle 与 JDK 17，插件最低 Android API 21。
 
 ## 已启用来源
 
@@ -10,6 +10,9 @@ MySound-Pro 是《我的听书（MyTingShu）》的开源音源插件，只接�
 |---|---|---|
 | Project Gutenberg 音频 | Gutendex 公开目录、Gutenberg 公开 MP3 | 默认启用 |
 | LibriVox | 官方 released API、公版志愿者录音 | 默认启用 |
+| 听书网 | 公开 HTML 搜索、详情、章节及播放页 | 默认启用 |
+| 博看有声 | 公开目录与章节 API、AAC/M4A 音频 | 默认启用 |
+| 云图有声 | 公开目录与章节 API、MP3 音频 | 默认启用 |
 
 69 听书因搜索验证码、Internet Archive 因本次准入环境持续连接超时而隔离，未进入自动注册。完整记录见 [站点准入](docs/site-admission.md)。
 
@@ -17,7 +20,7 @@ MySound-Pro 是《我的听书（MyTingShu）》的开源音源插件，只接�
 
 1. 从 Release 获取 `my_sound_pro.jar`。
 2. 按 MyTingShu 的自定义来源功能导入 JAR；文件名必须保持 `my_sound_pro.jar`。
-3. 原生更新订阅使用 Release 中的 `update.json`。入口包固定为 `com.github.eprendre.my_sound_pro`。
+3. 原生更新订阅使用 Release 中的 `update.json`。订阅字段 `entry_package` 固定为 JAR 基名 `my_sound_pro`；宿主由此查找 `com.github.eprendre.my_sound_pro.SourceEntry`。
 
 项目不在插件启动时自行联网弹窗；更新提示交给 MyTingShu 原生订阅机制，避免阻塞宿主或伪造 Android UI 能力。
 

@@ -21,6 +21,6 @@ class SourceEntryPresenceTest {
 
         val sources = entry.getMethod("getSources").invoke(null) as List<*>
 
-        assertThat(sources).hasSize(2)
+        assertThat(sources).hasSize(5)
     }
 }
