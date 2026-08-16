@@ -23,7 +23,7 @@ jobs:
         run: >-
           ./gradlew --no-daemon clean test :mysound-myting-host:verifyReleaseBundle
           -PprojectUrl="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: mysound-pro-${{ github.sha }}
